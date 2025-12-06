@@ -18,6 +18,9 @@ discord:
   bot:
     token: ${TOKEN}
 
+server:
+  port: 8128
+
 app:
   web-base-url: ${EXTERNAL_URL}
 

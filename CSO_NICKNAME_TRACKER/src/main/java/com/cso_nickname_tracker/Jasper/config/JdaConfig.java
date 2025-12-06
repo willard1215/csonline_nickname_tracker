@@ -1,6 +1,5 @@
 package com.cso_nickname_tracker.Jasper.config;
 
-import com.cso_nickname_tracker.Jasper.events.TestListener;
 import com.cso_nickname_tracker.Jasper.service.DiscordBotService;
 import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.api.JDA;
@@ -17,7 +16,6 @@ public class JdaConfig {
     private final DiscordBotConfig config;
 
     private final DiscordBotService discordBotService;
-    private final TestListener testListener;
 
     @Bean
     public JDA jda() throws Exception {
