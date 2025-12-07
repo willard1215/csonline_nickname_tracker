@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.utils.FileUpload;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
@@ -31,6 +32,7 @@ public class DiscordBotService extends ListenerAdapter {
     private static final int PAGE_SIZE = 5;
 
     private final UserService userService;
+    private final LuaService luaService;
 
     @Value("${app.web-base-url}")
     private String webBaseUrl;
@@ -43,6 +45,7 @@ public class DiscordBotService extends ListenerAdapter {
             case "추가" -> handleAdd(event);
             case "제거" -> handleRemove(event);
             case "링크" -> handleLink(event);
+            case "다운로드" -> handleDownload(event);
         }
     }
 
@@ -197,6 +200,7 @@ public class DiscordBotService extends ListenerAdapter {
             CsoRecordUtils utils = new CsoRecordUtils();
             String sn = utils.getSnFromNickname(nickname);
             userService.deleteUser(sn, actorDiscordId);
+            event.getHook().sendMessage("목록에서 제거했습니다.").queue();
         } catch (Exception e) {
             event.getHook().sendMessage("유저 제거 실패").queue();
         }
@@ -222,5 +226,14 @@ public class DiscordBotService extends ListenerAdapter {
         event.replyEmbeds(eb.build())
                 .setEphemeral(true) // 요청자에게만 보이게 하고 싶지 않다면 제거
                 .queue();
+    }
+
+    public void handleDownload(SlashCommandInteractionEvent event) {
+        event.deferReply(true).queue();
+
+        byte[] luaBytes = luaService.buildBanListLuaBytes();
+
+        FileUpload file = FileUpload.fromData(luaBytes, "BanList.lua");
+        event.getHook().sendFiles(file).queue();
     }
 }

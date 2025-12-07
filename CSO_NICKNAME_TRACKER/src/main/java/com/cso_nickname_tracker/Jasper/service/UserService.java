@@ -9,6 +9,7 @@ import com.cso_nickname_tracker.Jasper.repository.NicknameHistoryRepository;
 import com.cso_nickname_tracker.Jasper.repository.UserActionLogRepository;
 import com.cso_nickname_tracker.Jasper.repository.UserRepository;
 import com.cso_nickname_tracker.Jasper.utils.CsoRecordUtils;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -65,7 +66,11 @@ public class UserService {
                 UserActionLog.of(user, UserActionType.DELETE, actorDiscordId)
         );
 
-        userRepository.deleteByUserKey(userKey);
+        long number = userRepository.deleteByUserKey(userKey);
+
+        log.warn("------");
+        log.warn("{}",number);
+        log.warn("------");
     }
 
     private final ReentrantLock refreshLock = new ReentrantLock();

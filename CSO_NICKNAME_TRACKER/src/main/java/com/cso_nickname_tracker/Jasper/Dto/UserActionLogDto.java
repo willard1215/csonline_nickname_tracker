@@ -20,12 +20,10 @@ public class UserActionLogDto {
     private LocalDateTime createdAt;
 
     public static UserActionLogDto from(UserActionLog entity) {
-        User user = entity.getUser();
-
         return UserActionLogDto.builder()
                 .id(entity.getId())
-                .userKey(user.getUserKey())
-                .nickname(user.getNickname())
+                .userKey(entity.getUserKey())
+                .nickname(entity.getNickname())
                 .actionType(entity.getActionType())
                 .actorDiscordId(entity.getActorDiscordId())
                 .createdAt(entity.getCreatedAt())

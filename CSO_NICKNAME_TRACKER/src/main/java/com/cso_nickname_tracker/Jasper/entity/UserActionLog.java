@@ -17,9 +17,11 @@ public class UserActionLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "user_key", length = 64, nullable = false)
+    private String userKey;
+
+    @Column(name = "nickname", length = 20, nullable = false)
+    private String nickname;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "action_type", length = 16, nullable = false)
@@ -33,7 +35,8 @@ public class UserActionLog {
 
     public static UserActionLog of(User user, UserActionType type, String actorDiscordId) {
         return UserActionLog.builder()
-                .user(user)
+                .userKey(user.getUserKey())
+                .nickname(user.getNickname())
                 .actionType(type)
                 .actorDiscordId(actorDiscordId)
                 .createdAt(LocalDateTime.now())

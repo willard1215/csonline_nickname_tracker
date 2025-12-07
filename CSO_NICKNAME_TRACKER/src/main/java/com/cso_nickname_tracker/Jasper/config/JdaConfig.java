@@ -21,7 +21,7 @@ public class JdaConfig {
     public JDA jda() throws Exception {
         JDA jda = JDABuilder.createDefault(config.getToken())
                 .setStatus(OnlineStatus.DO_NOT_DISTURB)
-//                .addEventListeners(testListener, discordBotService)
+                .addEventListeners(discordBotService)
                 .build();
         jda.awaitReady();
 
@@ -32,7 +32,8 @@ public class JdaConfig {
                                             .addOption(OptionType.STRING, "닉네임", "추가할 닉네임을 입력해주세요.", true),
                             Commands.slash("제거", "닉네임 목록에서 제거합니다. 권한을 부여받은 유저만 사용 가능합니다.")
                                     .addOption(OptionType.STRING, "닉네임", "제거할 닉네임을 입력해주세요.", true),
-                            Commands.slash("링크", "제공되는 링크들입니다. 웹페이지에서 확인가능합니다.")
+                            Commands.slash("링크", "제공되는 링크들입니다. 웹페이지에서 확인가능합니다."),
+                            Commands.slash("다운로드", "루아파일 형태로 제공됩니다.")
                     ).queue();
     return jda;
     }
