@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: cso_user
       POSTGRES_PASSWORD: cso_pass
     ports:
-      - "5432:5432"           # 필요하면 외부에서 DB 접속할 때 사용, 안 쓸 거면 주석 처리 가능
+      - "5432:5432" # 필요하면 외부에서 DB 접속할 때 사용, 안 쓸 거면 주석 처리 가능
     volumes:
       - cso_db_data:/var/lib/postgresql/data
     networks:
@@ -33,16 +33,12 @@ services:
       DB_PASSWORD: cso_pass
 
       # Discord
-      TOKEN: "디스코드_봇_토큰_여기에"
+      TOKEN: "${TOKEN}"
 
       # Web base URL (EC2 퍼블릭 IP / 도메인)
-      APP_WEB_BASE_URL: "http://<EC2-PUBLIC-IP>:8128"
-
-      # Spring server port
-      SERVER_PORT: 8128
-
+      APP_WEB_BASE_URL: "http://${EC2_PUBLIC_IP}:8128"
     ports:
-      - "8080:8080"
+      - "8128:8128"
     networks:
       - cso-net
 
